@@ -18,6 +18,8 @@ public class MyContactsServlet extends HttpServlet {
                 <p>
                 <a href="index.jsp">Home</a>
                 </p>
+                <p>
+                <a href="logOut">Log out</a>
                 """;
         writer.println(html);
         response.setContentType("text/html");

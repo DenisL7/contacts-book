@@ -27,10 +27,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void createUser(String login, String password) {
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "insert into Users(login,password) values(?,?)";
+            String sql = "insert into Users(login,password,role) values(?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
+            preparedStatement.setString(3,"user");
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);

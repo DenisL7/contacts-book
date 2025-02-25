@@ -3,4 +3,46 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
+    <security-constraint>
+        <display-name>Constraint1</display-name>
+        <web-resource-collection>
+            <web-resource-name>MyContactsServlet</web-resource-name>
+            <description/>
+            <url-pattern>/contacts</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/Login.jsp</form-login-page>
+            <form-error-page>/ErrorLogin.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <security-role>
+        <description/>
+        <role-name>user</role-name>
+    </security-role>
+
+    <error-page>
+        <location>/ErrorPage.jsp</location>
+        <error-code>500</error-code>
+    </error-page>
+
+    <error-page>
+        <location>/ErrorPage401.jsp</location>
+        <error-code>401</error-code>
+    </error-page>
+
+    <error-page>
+        <location>/ErrorPage403.jsp</location>
+        <error-code>403</error-code>
+    </error-page>
+
+
+
 </web-app>
