@@ -11,7 +11,7 @@
     <title>ErrorLogin</title>
 </head>
 <body>
-<H1>Login and password were incorrect</H1>
+<H1  style="color: blue">Login and password were incorrect</H1>
 <br>
 <a href="index.jsp">Start Page</a>
 </body>

@@ -1,4 +1,4 @@
-package org.contacts.book.dao;
+package org.contacts.book.dao.user;
 
 import com.mysql.cj.jdbc.Driver;
 

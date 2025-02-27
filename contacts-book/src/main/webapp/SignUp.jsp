@@ -14,14 +14,14 @@
 <form method="post" action="signUp">
   <p>
     login:<br>
-    <input type="text" name="login">
+    <input type="text" name="login" style="color: darkred">
 
   </p>
   <p>
     password:<br>
-    <input type="password" name="password">
+    <input type="password" name="password" style="color: darkred">
   </p>
-  <input type="submit">
+  <input type="submit" style="color: darkred">
 </form>
 
 </body>

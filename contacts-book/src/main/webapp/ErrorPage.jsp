@@ -11,7 +11,7 @@
     <title>ErrorPage</title>
 </head>
 <body>
-<H1>User already exists</H1>
+<H1 style="color: blue">User already exists</H1>
 <p><img src="img/error.jpg" width="400" height="400"></p>
 <br>
 <a href="index.jsp">Start Page</a>

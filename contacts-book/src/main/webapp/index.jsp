@@ -5,11 +5,11 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1>Welcome to Contacts Book Application
+<h1 style="color: blue">Welcome to Contacts Book Application
 </h1>
 <br/>
-<a href="contacts">Access my Contacts</a>
+<a href="MyContacts.jsp" style="color: blue">Access my Contacts</a>
 <br>
-<a href="SignUp.jsp">Sign Up</a>
+<a href="SignUp.jsp" style="color: blue" >Sign Up</a>
 </body>
 </html>

@@ -11,7 +11,7 @@
     <title>ErrorPage403</title>
 </head>
 <body>
-<H1>You do not have correct permissions</H1>
+<H1 style="color: blue">You do not have correct permissions</H1>
 <p><img src="img/403.jpg" width="400" height="400"/> </p>
 <br>
 <a href="index.jsp">Start page</a>
