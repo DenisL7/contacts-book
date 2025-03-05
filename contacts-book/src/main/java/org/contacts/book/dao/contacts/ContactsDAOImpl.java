@@ -61,6 +61,40 @@ public class ContactsDAOImpl implements ContactsDAO {
         }
 
     }
-        ;
+
+    @Override
+    public void deleteContact(String name, String mail, int number, String user) {
+        try(Connection connection = dataSource.getConnection()){
+            String sql="delete from Contacts where name=? and mail=? and number=? and user_id=(select id from Users where login=?)";
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, mail);
+            preparedStatement.setInt(3, number);
+            preparedStatement.setString(4, user);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    @Override
+    public void updateContact(String name, String mail, int number, String user,String oldName,String oldMail,int oldNumber) {
+        try(Connection connection = dataSource.getConnection()){
+            String sql="update Contacts set name=?,mail=?,number=? where user_id=((select id from Users where login=?)) and name=? and mail=? and number=?";
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, mail);
+            preparedStatement.setInt(3, number);
+            preparedStatement.setString(4, user);
+            preparedStatement.setString(5, oldName);
+            preparedStatement.setString(6, oldMail);
+            preparedStatement.setInt(7, oldNumber);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+}
+
 

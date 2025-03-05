@@ -70,6 +70,12 @@
         <td>
           img:
         </td>
+        <td>
+          <a href="EditContact.jsp?name=<%=c.getName()%>&mail=<%=c.getEmail()%>&number=<%=c.getNumber()%>">Edit</a>
+        </td>
+        <td>
+          <a href="deleteServ?name=<%=c.getName()%>&mail=<%=c.getEmail()%>&number=<%=c.getNumber()%>">Delete</a>
+        </td>
       </tr>
       <%
         }
