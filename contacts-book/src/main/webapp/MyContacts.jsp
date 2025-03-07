@@ -36,8 +36,38 @@
       } catch (NamingException e) {
         throw new RuntimeException(e);
       }
+      int pageSize=10;
+      int pageNumber=0;
+      String pageSizeParam=request.getParameter("pageSize");
+      if (pageSizeParam!=null){
+        pageSize=Integer.parseInt(pageSizeParam);
+
+      }
       String user=request.getRemoteUser();
-      List<Contact> contacts=contactsDAO.getUserContacts(user);
+      String pageNumberParam=request.getParameter("pageNumber");
+      String prev=request.getParameter("prev");
+      String next=request.getParameter("next");
+      if (pageNumberParam!=null){
+        pageNumber=Integer.parseInt(pageNumberParam);
+        if (prev!=null){
+          pageNumber--;
+          if (pageNumber<0){
+            pageNumber=0;
+          }
+        }
+        if (next!=null){
+          pageNumber++;
+         int amountOfContacts= contactsDAO.getAmountOfContactsByUser(user);
+         if (pageNumber*pageSize>amountOfContacts){
+           pageNumber--;
+         }
+
+        }
+      }
+
+
+
+      List<Contact> contacts=contactsDAO.getUserContacts(user,pageNumber,pageSize);
     %>
     <table>
       <tr>
@@ -81,6 +111,14 @@
         }
       %>
     </table>
+    <p>
+    <form method="get" action="#">
+    <input type="hidden" value="<%=pageNumber%>" name="pageNumber">
+      <input type="submit" name="prev" value="<<">
+      <input type="text" value="<%=pageSize%>" name="pageSize">
+      <input type="submit" name="next" value=">>" >
+    </form>
+  </p>
   </center>
   </body>
 </html>
