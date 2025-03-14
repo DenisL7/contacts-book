@@ -35,25 +35,13 @@ public class CreateContactsServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name=req.getParameter("name");
-        Part part=req.getPart("img");
-        byte[] bufer=convert(part);
         String email=req.getParameter("mail");
         String number=req.getParameter("number");
         String user=req.getRemoteUser();
-        contactsDAO.createContact(name,email,number,user,bufer);
+        contactsDAO.createContact(name,email,number,user);
         resp.sendRedirect("MyContacts.jsp");
 
     }
-    private byte[] convert (Part part) {
-       try(InputStream in=part.getInputStream()) {
-           int size=in.available();
-           byte[] bufer=new byte[size];
-           in.read(bufer);
-           return bufer;
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
 
-    }
 
 }

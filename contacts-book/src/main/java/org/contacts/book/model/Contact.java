@@ -1,27 +1,31 @@
 package org.contacts.book.model;
 
+import java.util.Date;
+
 public class Contact {
     private String name;
     private String number;
     private String email;
-    private byte[] image;
+    private Date creationDate;
+    private Date modificationDate;
 
-    public byte[] getImage() {
-        return image;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "name='" + name + '\'' +
-                ", number='" + number + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+    public Date getModificationDate() {
+        return modificationDate;
     }
+
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
+
+
 
     public String getName() {
         return name;
@@ -45,5 +49,16 @@ public class Contact {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                ", email='" + email + '\'' +
+                ", creationDate=" + creationDate +
+                ", modificationDate=" + modificationDate +
+                '}';
     }
 }

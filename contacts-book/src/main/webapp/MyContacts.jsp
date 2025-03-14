@@ -26,6 +26,9 @@
     <a href="CreateContact.jsp">Create Contact</a>
   </p>
   <p>
+    <a href="Statistics.jsp">Statistics</a>
+  </p>
+  <p>
     <a href="logOut">Log out</a>
 <center>
     <form action="#" method="post">
@@ -95,8 +98,12 @@
           email:
         </td>
         <td>
-          img:
+          creation date:
         </td>
+        <td>
+          modification date:
+        </td>
+
       </tr>
       <%
         for (Contact c:contacts){
@@ -112,11 +119,13 @@
           <%=c.getEmail()  %>
         </td>
         <td>
-          <%if(c.getImage()!=null){
-          %>
-          <img width="10%" height="10%" src="data:<%="image/jpeg"%>;base64,<%=Base64.getEncoder().encodeToString(c.getImage())%>" alt="Image from byte array" />
-          <%}%>
+          <%=c.getCreationDate()  %>
         </td>
+        <td>
+          <%=c.getModificationDate()  %>
+        </td>
+
+
         <td>
           <a href="EditContact.jsp?name=<%=c.getName()%>&mail=<%=c.getEmail()%>&number=<%=c.getNumber()%>">Edit</a>
         </td>

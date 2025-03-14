@@ -6,7 +6,9 @@ import org.contacts.book.model.Contact;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ContactsDAOImpl implements ContactsDAO {
     static {
@@ -24,15 +26,18 @@ public class ContactsDAOImpl implements ContactsDAO {
     }
 
     @Override
-    public void createContact(String name, String mail, String number, String user, byte[] img) {
+    public void createContact(String name, String mail, String number, String user) {
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "insert into Contacts (number,name,mail,img,user_id) values(?,?,?,?,(select id from Users where login=?));";
+            String sql = "insert into Contacts (number,name,mail,user_id,creation_date,modification_date) values(?,?,?,(select id from Users where login=?),?,?);";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, number);
             preparedStatement.setString(2, name);
             preparedStatement.setString(3, mail);
-            preparedStatement.setBytes(4, img);
-            preparedStatement.setString(5, user);
+            preparedStatement.setString(4, user);
+            Date date=new java.sql.Date(System.currentTimeMillis());
+            Timestamp timestamp = new Timestamp(date.getTime());
+            preparedStatement.setTimestamp(5, timestamp);
+            preparedStatement.setTimestamp(6, timestamp);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,15 +85,16 @@ public class ContactsDAOImpl implements ContactsDAO {
     @Override
     public void updateContact(String name, String mail, int number, String user, String oldName, String oldMail, int oldNumber) {
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "update Contacts set name=?,mail=?,number=? where user_id=((select id from Users where login=?)) and name=? and mail=? and number=?";
+            String sql = "update Contacts set name=?,mail=?,number=?,modification_date=? where user_id=((select id from Users where login=?)) and name=? and mail=? and number=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, mail);
             preparedStatement.setInt(3, number);
-            preparedStatement.setString(4, user);
-            preparedStatement.setString(5, oldName);
-            preparedStatement.setString(6, oldMail);
-            preparedStatement.setInt(7, oldNumber);
+            preparedStatement.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+            preparedStatement.setString(5, user);
+            preparedStatement.setString(6, oldName);
+            preparedStatement.setString(7, oldMail);
+            preparedStatement.setInt(8, oldNumber);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -111,7 +117,8 @@ public class ContactsDAOImpl implements ContactsDAO {
                 contact.setEmail(set.getString("mail"));
                 contact.setName(set.getString("name"));
                 contact.setNumber(set.getString("number"));
-                contact.setImage(set.getBytes("img"));
+                contact.setCreationDate(set.getTimestamp("creation_date"));
+                contact.setModificationDate(set.getTimestamp("modification_date"));
                 contacts.add(contact);
 
             }
@@ -161,7 +168,17 @@ public class ContactsDAOImpl implements ContactsDAO {
         }
 
     }
+
+    @Override
+    public Map<String, Integer> createdContactsByMonth(String user) {
+        Map<String, Integer> contacts = new HashMap<>();
+        contacts.put("a", 1);
+        contacts.put("b", 2);
+        contacts.put("c", 3);
+        return contacts;
     }
+
+}
 
 
 
