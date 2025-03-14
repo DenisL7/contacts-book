@@ -4,6 +4,15 @@ public class Contact {
     private String name;
     private String number;
     private String email;
+    private byte[] image;
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     @Override
     public String toString() {

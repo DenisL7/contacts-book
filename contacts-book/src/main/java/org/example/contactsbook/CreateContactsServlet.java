@@ -1,10 +1,12 @@
 package org.example.contactsbook;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import org.contacts.book.dao.contacts.ContactsDAO;
 import org.contacts.book.dao.contacts.ContactsDAOImpl;
 import org.contacts.book.dao.user.UserDAOImpl;
@@ -12,8 +14,12 @@ import org.contacts.book.dao.user.UserDAOImpl;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
+@MultipartConfig()
 @WebServlet(name ="ContactsServlet",value ="/createContact")
 public class CreateContactsServlet extends HttpServlet {
     private ContactsDAO contactsDAO;
@@ -29,11 +35,24 @@ public class CreateContactsServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name=req.getParameter("name");
+        Part part=req.getPart("img");
+        byte[] bufer=convert(part);
         String email=req.getParameter("mail");
         String number=req.getParameter("number");
         String user=req.getRemoteUser();
-        contactsDAO.createContact(name,email,number,user,null);
+        contactsDAO.createContact(name,email,number,user,bufer);
         resp.sendRedirect("MyContacts.jsp");
+
+    }
+    private byte[] convert (Part part) {
+       try(InputStream in=part.getInputStream()) {
+           int size=in.available();
+           byte[] bufer=new byte[size];
+           in.read(bufer);
+           return bufer;
+       } catch (IOException e) {
+           throw new RuntimeException(e);
+       }
 
     }
 

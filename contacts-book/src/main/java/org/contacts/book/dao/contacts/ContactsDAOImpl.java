@@ -111,6 +111,7 @@ public class ContactsDAOImpl implements ContactsDAO {
                 contact.setEmail(set.getString("mail"));
                 contact.setName(set.getString("name"));
                 contact.setNumber(set.getString("number"));
+                contact.setImage(set.getBytes("img"));
                 contacts.add(contact);
 
             }
@@ -137,8 +138,32 @@ public class ContactsDAOImpl implements ContactsDAO {
         }
     }
 
+    @Override
+    public List<Contact> getUserContactsFiltered(String user, String search) {
+        try (Connection connection = dataSource.getConnection()) {
+            List<Contact> contacts = new ArrayList<>();
+            String sql = "select * from Contacts where user_id=(select id from Users where login=?) and name like ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, user);
+            preparedStatement.setString(2,"%"+ search +"%");
+            ResultSet set = preparedStatement.executeQuery();
+            while (set.next()) {
+                Contact contact = new Contact();
+                contact.setEmail(set.getString("mail"));
+                contact.setName(set.getString("name"));
+                contact.setNumber(set.getString("number"));
+                contacts.add(contact);
+
+            }
+            return contacts;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    }
 
 
-}
+
 
 

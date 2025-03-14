@@ -11,7 +11,10 @@
     <title>CreateContact</title>
 </head>
 <body>
-<form method="post" action="createContact">
+<form method="post" action="createContact" enctype="multipart/form-data">
+    <p>image:<br>
+        <input type="file" name="img">
+    </p>
     <p>name:<br>
         <input type="text" name="name">
     </p>

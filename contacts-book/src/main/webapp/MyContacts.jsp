@@ -4,7 +4,8 @@
 <%@ page import="javax.naming.NamingException" %>
 <%@ page import="org.contacts.book.dao.contacts.ContactsDAO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.contacts.book.model.Contact" %><%--
+<%@ page import="org.contacts.book.model.Contact" %>
+<%@ page import="java.util.Base64" %><%--
   Created by IntelliJ IDEA.
   User: denislupach
   Date: 27.02.2025
@@ -27,6 +28,11 @@
   <p>
     <a href="logOut">Log out</a>
 <center>
+    <form action="#" method="post">
+      <input type="text" name="search">
+      <input type="submit">
+
+    </form>
     <%
       ContactsDAO contactsDAO=null;
       try {
@@ -47,27 +53,35 @@
       String pageNumberParam=request.getParameter("pageNumber");
       String prev=request.getParameter("prev");
       String next=request.getParameter("next");
-      if (pageNumberParam!=null){
-        pageNumber=Integer.parseInt(pageNumberParam);
-        if (prev!=null){
-          pageNumber--;
-          if (pageNumber<0){
-            pageNumber=0;
+      List<Contact> contacts=null;
+      String search=request.getParameter("search");
+      if (search!=null){
+        contacts=contactsDAO.getUserContactsFiltered(user,search);
+
+      }else {
+
+
+        if (pageNumberParam != null) {
+          pageNumber = Integer.parseInt(pageNumberParam);
+          if (prev != null) {
+            pageNumber--;
+            if (pageNumber < 0) {
+              pageNumber = 0;
+            }
+          }
+          if (next != null) {
+            pageNumber++;
+            int amountOfContacts = contactsDAO.getAmountOfContactsByUser(user);
+            if (pageNumber * pageSize > amountOfContacts) {
+              pageNumber--;
+            }
+
           }
         }
-        if (next!=null){
-          pageNumber++;
-         int amountOfContacts= contactsDAO.getAmountOfContactsByUser(user);
-         if (pageNumber*pageSize>amountOfContacts){
-           pageNumber--;
-         }
 
-        }
+
+       contacts = contactsDAO.getUserContacts(user, pageNumber, pageSize);
       }
-
-
-
-      List<Contact> contacts=contactsDAO.getUserContacts(user,pageNumber,pageSize);
     %>
     <table>
       <tr>
@@ -98,7 +112,10 @@
           <%=c.getEmail()  %>
         </td>
         <td>
-          img:
+          <%if(c.getImage()!=null){
+          %>
+          <img width="10%" height="10%" src="data:<%="image/jpeg"%>;base64,<%=Base64.getEncoder().encodeToString(c.getImage())%>" alt="Image from byte array" />
+          <%}%>
         </td>
         <td>
           <a href="EditContact.jsp?name=<%=c.getName()%>&mail=<%=c.getEmail()%>&number=<%=c.getNumber()%>">Edit</a>
