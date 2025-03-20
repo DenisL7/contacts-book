@@ -172,10 +172,26 @@ public class ContactsDAOImpl implements ContactsDAO {
     @Override
     public Map<String, Integer> createdContactsByMonth(String user) {
         Map<String, Integer> contacts = new HashMap<>();
-        contacts.put("a", 1);
-        contacts.put("b", 2);
-        contacts.put("c", 3);
-        return contacts;
+        try (Connection connection = dataSource.getConnection()) {
+            String sql="select count(*) as count,MONTH(creation_date) as month from Contacts where (select id from Users where login=?) group by MONTH(creation_date)";
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setString(1, user);
+            ResultSet set=preparedStatement.executeQuery();
+            while (set.next()) {
+                String month=set.getString("month");
+                Integer count=set.getInt("count");
+                contacts.put(month, count);
+
+
+            }
+
+            return contacts;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
 }
