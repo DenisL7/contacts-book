@@ -26,6 +26,12 @@
     <a href="CreateContact.jsp">Create Contact</a>
   </p>
   <p>
+    <a href="ImportContacts.jsp">Import Contacts</a>
+  </p>
+  <p>
+  <a href="impServ">Export Contacts</a>
+  </p>
+  <p>
     <a href="Statistics.jsp">Statistics</a>
   </p>
   <p>
