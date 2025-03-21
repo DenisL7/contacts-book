@@ -194,7 +194,32 @@ public class ContactsDAOImpl implements ContactsDAO {
 
     }
 
-}
+    @Override
+    public void createdContacts(List<Contact> contacts, String user) {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            for (Contact contact : contacts) {
+                String sql = "insert into Contacts (number,name,mail,user_id,creation_date,modification_date) values(?,?,?,(select id from Users where login=?),?,?);";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, contact.getNumber());
+                preparedStatement.setString(2, contact.getName());
+                preparedStatement.setString(3, contact.getEmail());
+                preparedStatement.setString(4, user);
+                Date date=new java.sql.Date(System.currentTimeMillis());
+                Timestamp timestamp = new Timestamp(date.getTime());
+                preparedStatement.setTimestamp(5, timestamp);
+                preparedStatement.setTimestamp(6, timestamp);
+                preparedStatement.execute();
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    }
+
+
 
 
 

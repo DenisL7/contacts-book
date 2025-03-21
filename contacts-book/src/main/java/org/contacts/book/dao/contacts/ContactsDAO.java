@@ -14,6 +14,7 @@ public interface ContactsDAO {
     public int getAmountOfContactsByUser(String user);
     public List<Contact> getUserContactsFiltered(String user,String search);
     public Map<String,Integer> createdContactsByMonth(String user);
+    public void createdContacts(List<Contact> contacts,String user);
 
 
 
