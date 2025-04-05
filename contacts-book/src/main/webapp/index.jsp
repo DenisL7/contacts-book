@@ -14,9 +14,9 @@
             <td>
                 <!--<a href="MyContacts.jsp" style="color: blue"><img size="40" src="img/home.jpeg"></a>-->
                 <input type="image"
-                       src="img/new2.png"
-                       onmouseover="src='img/new1.png'"
-                       onmouseout="src='img/new2.png'"
+                       src="img/login1.png"
+                       onmouseover="src='img/login2.png'"
+                       onmouseout="src='img/login1.png'"
                        onclick="location.href='MyContacts.jsp'"/>
 
 
@@ -27,9 +27,9 @@
             <td>
                 <!--<a href="SignUp.jsp" style="color: blue" ><img size="40" src="img/signup.jpg"></a>-->
                 <input type="image"
-                       src="img/login1.png"
-                       onmouseover="src='img/login2.png'"
-                       onmouseout="src='img/login1.png'"
+                       src="img/new2.png"
+                       onmouseover="src='img/new1.png'"
+                       onmouseout="src='img/new2.png'"
                        onclick="location.href='SignUp.jsp'"/>
 
             </td>

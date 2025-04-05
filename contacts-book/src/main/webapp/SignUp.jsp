@@ -11,6 +11,7 @@
     <title>SignUp</title>
 </head>
 <body>
+<H1>New user registration form</H1>
 <form method="post" action="signUp">
   <p>
     login:<br>
